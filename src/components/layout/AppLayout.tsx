@@ -4,12 +4,6 @@ import {
   Home,
   Activity,
   Settings,
-  Palette,
-  FileText,
-  Zap,
-  Layout,
-  AlertTriangle,
-  HelpCircle,
   Building2,
   Hash,
   Volume2,
@@ -25,17 +19,11 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { mockBuildings, mockFloors, mockRooms } from "@/lib/mockData";
+import { SettingsSheet } from "./SettingsSheet";
 
 const navigation = [
   { name: "Home", href: "/app/home", icon: Home },
   { name: "Status", href: "/app/status", icon: Activity },
-  { name: "Customization", href: "/app/customization", icon: Settings },
-  { name: "Design System", href: "/app/design-system", icon: Palette },
-  { name: "Drafts & Permissions", href: "/app/drafts-permissions", icon: FileText },
-  { name: "Power Tools", href: "/app/power-tools", icon: Zap },
-  { name: "Layout Modes", href: "/app/layout-modes", icon: Layout },
-  { name: "Errors", href: "/app/errors", icon: AlertTriangle },
-  { name: "Help", href: "/app/help", icon: HelpCircle },
 ];
 
 export function AppLayout() {
@@ -43,6 +31,7 @@ export function AppLayout() {
   const navigate = useNavigate();
   const [selectedBuilding, setSelectedBuilding] = useState(mockBuildings[0].id);
   const [searchQuery, setSearchQuery] = useState("");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const selectedFloors = mockFloors.filter((f) => f.buildingId === selectedBuilding);
   const selectedRooms = mockRooms.filter((r) =>
@@ -181,7 +170,12 @@ export function AppLayout() {
                 Online
               </div>
             </div>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => setSettingsOpen(true)}
+            >
               <Settings className="w-4 h-4" />
             </Button>
           </div>
@@ -225,6 +219,9 @@ export function AppLayout() {
             <Outlet />
           </div>
         </div>
+
+        {/* Settings Sheet */}
+        <SettingsSheet open={settingsOpen} onOpenChange={setSettingsOpen} />
       </div>
     </TooltipProvider>
   );
