@@ -53,23 +53,49 @@ export const mockBuildings: Building[] = [
 ];
 
 export const mockFloors: Floor[] = [
+  // Holy Pixel HQ
   { id: "f1", buildingId: "b1", name: "Main Floor", icon: "📋" },
   { id: "f2", buildingId: "b1", name: "Voice Channels", icon: "🎙️" },
+  // Design Team
   { id: "f3", buildingId: "b2", name: "Projects", icon: "🎯" },
-  { id: "f4", buildingId: "b3", name: "Code Reviews", icon: "🔍" },
+  { id: "f4", buildingId: "b2", name: "Feedback", icon: "💬" },
+  // Dev Guild
+  { id: "f5", buildingId: "b3", name: "Code Reviews", icon: "🔍" },
+  { id: "f6", buildingId: "b3", name: "Development", icon: "⚙️" },
+  // Gaming Lounge
+  { id: "f7", buildingId: "b4", name: "Game Chat", icon: "🎮" },
+  { id: "f8", buildingId: "b4", name: "Voice Rooms", icon: "🔊" },
 ];
 
 export const mockRooms: Room[] = [
+  // Holy Pixel HQ - Main Floor
   { id: "r1", floorId: "f1", name: "general", type: "text", unread: 3 },
   { id: "r2", floorId: "f1", name: "announcements", type: "text" },
   { id: "r3", floorId: "f1", name: "random", type: "text", unread: 12 },
+  // Holy Pixel HQ - Voice Channels
   { id: "r4", floorId: "f2", name: "Lounge", type: "voice" },
   { id: "r5", floorId: "f2", name: "Meeting Room 1", type: "voice" },
+  // Design Team - Projects
   { id: "r6", floorId: "f3", name: "ui-feedback", type: "text" },
-  { id: "r7", floorId: "f4", name: "pull-requests", type: "text", unread: 2 },
+  { id: "r7", floorId: "f3", name: "design-ideas", type: "text", unread: 5 },
+  // Design Team - Feedback
+  { id: "r8", floorId: "f4", name: "client-reviews", type: "text" },
+  // Dev Guild - Code Reviews
+  { id: "r9", floorId: "f5", name: "pull-requests", type: "text", unread: 2 },
+  { id: "r10", floorId: "f5", name: "bug-reports", type: "text", unread: 7 },
+  // Dev Guild - Development
+  { id: "r11", floorId: "f6", name: "backend", type: "text" },
+  { id: "r12", floorId: "f6", name: "frontend", type: "text" },
+  // Gaming Lounge - Game Chat
+  { id: "r13", floorId: "f7", name: "lobby", type: "text", unread: 20 },
+  { id: "r14", floorId: "f7", name: "tournaments", type: "text" },
+  // Gaming Lounge - Voice Rooms
+  { id: "r15", floorId: "f8", name: "Squad 1", type: "voice" },
+  { id: "r16", floorId: "f8", name: "Squad 2", type: "voice" },
 ];
 
 export const mockMessages: Message[] = [
+  // Holy Pixel HQ - general
   {
     id: "m1",
     roomId: "r1",
@@ -114,6 +140,63 @@ export const mockMessages: Message[] = [
     userAvatar: "🐼",
     content: "Command palette is 🔥! Press Ctrl+K to try it.",
     timestamp: new Date(Date.now() - 300000),
+  },
+  // Design Team - ui-feedback
+  {
+    id: "m6",
+    roomId: "r6",
+    userId: "u5",
+    userName: "Emma",
+    userAvatar: "🎨",
+    content: "I think we should add more rounded corners to the cards",
+    timestamp: new Date(Date.now() - 2400000),
+  },
+  {
+    id: "m7",
+    roomId: "r6",
+    userId: "u6",
+    userName: "Frank",
+    userAvatar: "🖌️",
+    content: "Good idea! And maybe increase the shadow on hover?",
+    timestamp: new Date(Date.now() - 1200000),
+  },
+  // Dev Guild - pull-requests
+  {
+    id: "m8",
+    roomId: "r9",
+    userId: "u7",
+    userName: "Grace",
+    userAvatar: "💻",
+    content: "PR #234 is ready for review - added the new authentication flow",
+    timestamp: new Date(Date.now() - 3000000),
+  },
+  {
+    id: "m9",
+    roomId: "r9",
+    userId: "u8",
+    userName: "Henry",
+    userAvatar: "🔧",
+    content: "I'll take a look! Give me 10 mins",
+    timestamp: new Date(Date.now() - 2700000),
+  },
+  // Gaming Lounge - lobby
+  {
+    id: "m10",
+    roomId: "r13",
+    userId: "u9",
+    userName: "Ivan",
+    userAvatar: "🎮",
+    content: "Anyone up for a game?",
+    timestamp: new Date(Date.now() - 1800000),
+  },
+  {
+    id: "m11",
+    roomId: "r13",
+    userId: "u10",
+    userName: "Julia",
+    userAvatar: "🕹️",
+    content: "I'm in! What are we playing?",
+    timestamp: new Date(Date.now() - 1500000),
   },
 ];
 

@@ -1,20 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, Smile, Paperclip, Image, Mic, Video, Phone, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { mockMessages } from "@/lib/mockData";
+import { mockMessages, Message } from "@/lib/mockData";
+import { useSearchParams } from "react-router-dom";
+
+const botResponses = [
+  "Thanks for sharing! 🎉",
+  "That's a great point! 💡",
+  "I totally agree with you!",
+  "Interesting perspective! 🤔",
+  "Love the energy in here! ⚡",
+  "Keep up the great work! 💪",
+  "That's really helpful, thanks!",
+  "Noted! I'll look into that. 👀",
+];
 
 export default function Home() {
+  const [searchParams] = useSearchParams();
+  const currentRoomId = searchParams.get("room") || "r1";
   const [message, setMessage] = useState("");
   const [isDraft, setIsDraft] = useState(false);
+  const [messages, setMessages] = useState<Message[]>(mockMessages);
+
+  // Filter messages for the current room
+  const currentMessages = messages.filter((msg) => msg.roomId === currentRoomId);
 
   const handleSend = () => {
     if (message.trim()) {
+      // Add user message
+      const newUserMessage: Message = {
+        id: `m${Date.now()}`,
+        roomId: currentRoomId,
+        userId: "current-user",
+        userName: "User",
+        userAvatar: "👤",
+        content: message,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, newUserMessage]);
       setMessage("");
       setIsDraft(false);
+
+      // Add bot reply after 1-2 seconds
+      setTimeout(() => {
+        const botMessage: Message = {
+          id: `m${Date.now()}-bot`,
+          roomId: currentRoomId,
+          userId: "bot",
+          userName: "PixelBot",
+          userAvatar: "🤖",
+          content: botResponses[Math.floor(Math.random() * botResponses.length)],
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, botMessage]);
+      }, 1000 + Math.random() * 1000);
     }
   };
 
@@ -29,7 +72,12 @@ export default function Home() {
         {/* Messages Area */}
         <ScrollArea className="flex-1 p-4">
           <div className="space-y-4 max-w-4xl mx-auto">
-            {mockMessages.map((msg) => (
+            {currentMessages.length === 0 ? (
+              <div className="flex items-center justify-center h-full text-muted-foreground">
+                <p>No messages yet. Start the conversation! 💬</p>
+              </div>
+            ) : (
+              currentMessages.map((msg) => (
               <div
                 key={msg.id}
                 className="flex gap-3 hover:bg-muted/30 -mx-2 px-2 py-1 rounded-lg transition-colors group"
@@ -59,7 +107,8 @@ export default function Home() {
                   </Button>
                 </div>
               </div>
-            ))}
+            ))
+            )}
           </div>
         </ScrollArea>
 
