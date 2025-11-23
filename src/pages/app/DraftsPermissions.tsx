@@ -28,8 +28,8 @@ const permissions = [
 
 export default function DraftsPermissions() {
   return (
-    <div className="h-full overflow-auto">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
+    <div className="w-full">
+      <div className="w-full p-6 space-y-6">
         <div>
           <h1 className="text-3xl font-bold mb-2">Drafts & Permissions</h1>
           <p className="text-muted-foreground">
@@ -55,21 +55,21 @@ export default function DraftsPermissions() {
                   return (
                     <div
                       key={draft.id}
-                      className="p-4 rounded-lg bg-warning/5 border border-warning/20 hover:border-warning/40 transition-colors"
+                      className="p-4 rounded-lg bg-warning/5 border border-warning/20 hover:border-warning/40 transition-colors w-full"
                     >
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <AlertCircle className="w-4 h-4 text-warning" />
-                          <span className="font-medium">#{room?.name || "unknown"}</span>
-                          <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
+                      <div className="flex items-start justify-between mb-2 gap-2">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <AlertCircle className="w-4 h-4 text-warning flex-shrink-0" />
+                          <span className="font-medium truncate">#{room?.name || "unknown"}</span>
+                          <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 flex-shrink-0">
                             Draft
                           </Badge>
                         </div>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
                           {new Date(draft.timestamp).toLocaleString()}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-3">{draft.content}</p>
+                      <p className="text-sm text-muted-foreground mb-3 break-words">{draft.content}</p>
                       <div className="flex gap-2">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
@@ -118,7 +118,7 @@ export default function DraftsPermissions() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="w-full">
+            <div className="w-full overflow-x-auto">
               <div className="min-w-[600px]">
                 <div className="grid grid-cols-[200px_repeat(4,1fr)] gap-2 mb-2">
                   <div className="font-semibold text-sm">Permission</div>
@@ -163,7 +163,7 @@ export default function DraftsPermissions() {
                   })}
                 </div>
               </div>
-            </ScrollArea>
+            </div>
           </CardContent>
         </Card>
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Layout, Maximize2, Minimize2, Eye, EyeOff } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,12 +5,21 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
+import { useLayout } from "@/contexts/LayoutContext";
 
 export default function LayoutModes() {
-  const [focusMode, setFocusMode] = useState(false);
-  const [density, setDensity] = useState("comfortable");
-  const [showMembers, setShowMembers] = useState(true);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const {
+    focusMode,
+    density,
+    showMembers,
+    showSidebar,
+    setFocusMode,
+    setDensity,
+    setShowMembers,
+    setShowSidebar,
+    setMinimalMode,
+    setFullMode,
+  } = useLayout();
 
   return (
     <div className="h-full overflow-auto">
@@ -203,11 +211,7 @@ export default function LayoutModes() {
               <Button
                 variant="outline"
                 className="flex-1"
-                onClick={() => {
-                  setFocusMode(true);
-                  setShowMembers(false);
-                  setShowSidebar(false);
-                }}
+                onClick={setMinimalMode}
               >
                 <Minimize2 className="w-4 h-4 mr-2" />
                 Minimal Mode
@@ -215,12 +219,7 @@ export default function LayoutModes() {
               <Button
                 variant="outline"
                 className="flex-1"
-                onClick={() => {
-                  setFocusMode(false);
-                  setShowMembers(true);
-                  setShowSidebar(true);
-                  setDensity("comfortable");
-                }}
+                onClick={setFullMode}
               >
                 <Maximize2 className="w-4 h-4 mr-2" />
                 Full Mode

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Building2, Layers, Hash, ArrowRight, Check } from "lucide-react";
+import { Building2, Layers, Hash, ArrowRight, Check, SkipForward } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const steps = [
   {
@@ -42,6 +43,29 @@ export default function Onboarding() {
     navigate("/app/home");
   };
 
+  const handlePrevious = () => {
+    setCurrentStep(Math.max(0, currentStep - 1));
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || (e.key === "Enter" && !e.shiftKey)) {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentStep((prev) => Math.max(0, prev - 1));
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        handleSkip();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentStep, navigate]);
+
   const progress = ((currentStep + 1) / steps.length) * 100;
   const step = steps[currentStep];
 
@@ -53,9 +77,17 @@ export default function Onboarding() {
             <h2 className="text-sm font-medium text-muted-foreground">
               Step {currentStep + 1} of {steps.length}
             </h2>
-            <Button variant="ghost" size="sm" onClick={handleSkip}>
-              Skip tour
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="sm" onClick={handleSkip} aria-label="Skip onboarding tour">
+                  <SkipForward className="w-3.5 h-3.5 mr-1.5" />
+                  Skip tour
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Press <kbd>Esc</kbd> to skip</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
           <Progress value={progress} className="h-2" />
         </div>
@@ -111,19 +143,24 @@ export default function Onboarding() {
               <Button
                 variant="outline"
                 className="flex-1"
-                onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                onClick={handlePrevious}
                 disabled={currentStep === 0}
+                aria-label="Previous step"
               >
                 Previous
               </Button>
               <Button
-                className="flex-1 bg-gradient-to-r from-primary to-accent hover:opacity-90"
+                className="flex-1 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
                 onClick={handleNext}
+                aria-label={currentStep === steps.length - 1 ? "Get started" : "Next step"}
               >
                 {currentStep === steps.length - 1 ? "Get Started" : "Next"}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
+            <p className="text-center text-xs text-muted-foreground mt-2">
+              Use <kbd>←</kbd> <kbd>→</kbd> arrow keys to navigate
+            </p>
           </CardContent>
         </Card>
       </div>

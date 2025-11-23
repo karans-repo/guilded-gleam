@@ -81,7 +81,7 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
               </Button>
             </div>
             <ScrollArea className="flex-1">
-              <div className="p-6">
+              <div className="p-6 max-w-full">
                 <ActiveComponent />
               </div>
             </ScrollArea>
